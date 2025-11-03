@@ -8,19 +8,15 @@ on:
 
 permissions:
   issues: write
-  pull-requests: write
   contents: read
-    
 
 jobs:
   greeting:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Greet the Contributor
+      - name: Post greeting (every time)
         uses: peter-evans/create-or-update-comment@v4
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: 'Welcome! 🎉 Thanks for opening your first issue!'
-          pr-message: 'Welcome! 🎉 Thanks for your first pull request!'
-    
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          body: "Welcome! 🎉 Thanks for opening this issue/PR!"
